@@ -1,57 +1,42 @@
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
+import io.kotlintest.matchers.endWith
+import io.kotlintest.should
+import io.kotlintest.shouldBe
+import io.kotlintest.specs.StringSpec
 
-internal class PartridgeMinesAPintTest {
+internal class PartridgeMinesAPintTest : StringSpec({
 
-    private val emptyList = emptyList<String>()
-    private val noPartridgeTerms = listOf("BLUE", "RED", "PINK", "GREEN")
-    private val allThePartridgeTerms = listOf("Partridge", "PearTree", "Chat", "Dan", "Toblerone", "Lynn", "AlphaPapa", "Nomad")
+    val noPartridgeTerms = listOf("BLUE", "RED", "PINK", "GREEN")
+    val allThePartridgeTerms = listOf("Partridge", "PearTree", "Chat", "Dan", "Toblerone", "Lynn", "AlphaPapa", "Nomad")
 
-    @Test
-    fun testEmptyList() {
-        assertThat(PartridgeMinesAPint.of(emptyList))
-            .isEqualTo("Lynn, I've pierced my foot on a spike!!")
+    "empty list" {
+        PartridgeMinesAPint.of(emptyList()) shouldBe "Lynn, I've pierced my foot on a spike!!"
     }
 
-    @Test
-    fun testNoPartridgeTerms() {
-        assertThat(PartridgeMinesAPint.of(noPartridgeTerms))
-            .isEqualTo("Lynn, I've pierced my foot on a spike!!")
+    "no partridge terms" {
+        PartridgeMinesAPint.of(noPartridgeTerms) shouldBe "Lynn, I've pierced my foot on a spike!!"
     }
 
-    @Test
-    fun testSingleTerm() {
-        assertThat(PartridgeMinesAPint.of(listOf("Lynn")))
-            .endsWith("Pint!")
+    "single partridge term" {
+        PartridgeMinesAPint.of(listOf("Lynn")) should endWith("Pint!")
     }
 
-    @Test
-    fun testTwoTerms() {
-        assertThat(PartridgeMinesAPint.of(listOf("Lynn", "PearTree")))
-            .endsWith("Pint!!")
+    "two partridge terms" {
+        PartridgeMinesAPint.of(listOf("Lynn", "PearTree")) should endWith("Pint!!")
     }
 
-    @Test
-    fun testTwoLynns() {
-        assertThat(PartridgeMinesAPint.of(listOf("Lynn", "Lynn")))
-            .endsWith("Pint!!")
+    "two lynns" {
+        PartridgeMinesAPint.of(listOf("Lynn", "Lynn")) should endWith("Pint!!")
     }
 
-    @Test
-    fun testThreeTerms() {
-        assertThat(PartridgeMinesAPint.of(listOf("Partridge", "PearTree", "Chat")))
-            .endsWith("Pint!!!")
+    "three partridge terms" {
+        PartridgeMinesAPint.of(listOf("Partridge", "PearTree", "Chat")) should endWith("Pint!!!")
     }
 
-    @Test
-    fun testAllTheTerms() {
-        assertThat(PartridgeMinesAPint.of(allThePartridgeTerms))
-            .endsWith("Pint!!!!!!!!")
+    "all the terms" {
+        PartridgeMinesAPint.of(allThePartridgeTerms) should endWith("Pint!!!!!!!!")
     }
 
-    @Test
-    fun testSamePartridgeTermAppearsMultipleTimes() {
-        assertThat(PartridgeMinesAPint.of(listOf("PearTree", "PearTree")))
-            .endsWith("Pint!!")
+    "same partridge term appears multiple times" {
+        PartridgeMinesAPint.of(listOf("PearTree", "PearTree")) should endWith("Pint!!")
     }
-}
+})
